@@ -1,0 +1,19 @@
+{
+  "name": "rabbit-hole",
+  "version": "1.0.0",
+  "description": "An online book review system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BrellaH/RabbitHole.git"
+  },
+  "author": "Yingxu Mu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BrellaH/RabbitHole/issues"
+  },
+  "homepage": "https://github.com/BrellaH/RabbitHole#readme"
+}
