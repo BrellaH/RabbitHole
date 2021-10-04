@@ -18,10 +18,26 @@ app.get("/books/new", (req, res) => {
     res.render("books/new")
 })
 
-app.get("/books/:id", async (req, res) => {
-    const { id } = req.params
-    const foundBook = await Book.findById(id)
-    res.render("books/show", { foundBook })
+app.route("/books/:id")
+    .get(async (req, res) => {
+        const { id } = req.params
+        const book = await Book.findById(id).populate("reviews")
+        res.render("books/show", { book })
+    })
+    .post(async (req, res) => {
+        const { id } = req.params
+        const book = await Book.findById(id)
+        const newReview = new Review(req.body.review)
+        await newReview.save()
+        book.reviews.push(newReview._id)
+        await book.save()
+        res.redirect(`/books/${id}`)
+    })
+
+app.get("/books/:id/review", async (req, res) => {
+    const { id } = req.params;
+    const book = await Book.findById(id)
+    res.render("reviews/new", { book })
 })
 
 app.route("/books")

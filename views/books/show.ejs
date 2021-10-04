@@ -10,11 +10,23 @@
 
 <body>
     <h1>
-        <%= foundBook.title %>
+        <%= book.title %>
     </h1>
     <h2>
-        <%= foundBook.author %>
+        <%= book.author %>
     </h2>
+    <form action="/books/<%=book._id %>/review" method="GET">
+        <button type="submit">Add a Book Review</button>
+    </form>
+    <h1>Reviews</h1>
+    <% for(const review of book.reviews){%>
+        <h2>Rating: <%= review.rating %>
+        </h2>
+        <p>
+            <%= review.body %>
+        </p>
+        <%}%>
+            <a href="/books">Back to all books</a>
 </body>
 
 </html>
