@@ -3,6 +3,7 @@ const app = express()
 const path = require("path")
 const Book = require("./models/bookModel")
 const Review = require("./models/reviewModel")
+const methodOverride = require("method-override")
 const router = express.Router()
 const mongoose = require('mongoose');
 
@@ -10,6 +11,7 @@ app.set("views", path.join(__dirname, "views"))
 app.set("view engine", "ejs")
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
+app.use(methodOverride("_method"))
 
 
 mongoose.connect('mongodb://localhost:27017/rabbit-hole');
@@ -39,6 +41,19 @@ app.get("/books/:id/review", async (req, res) => {
     const book = await Book.findById(id)
     res.render("reviews/new", { book })
 })
+
+app.route("/books/:id/review/:reviewId")
+    .get(async (req, res) => {
+        const { id, reviewId } = req.params
+        const review = await Review.findById(reviewId)
+        const book = await Book.findById(id)
+        res.render("reviews/edit", { review, book })
+    })
+    .put(async (req, res) => {
+        const { id, reviewId } = req.params
+        await Review.findByIdAndUpdate(reviewId, req.body.review)
+        res.redirect(`/books/${id}`)
+    })
 
 app.route("/books")
     .get(async (req, res) => {

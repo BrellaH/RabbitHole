@@ -24,9 +24,11 @@
         </h2>
         <p>
             <%= review.body %>
-        </p>
+        </p><a href=<%=`/books/${book._id}/review/${review._id}` %> >edit</a>
         <%}%>
-            <a href="/books">Back to all books</a>
+            <div>
+                <a href="/books">Back to all books</a>
+            </div>
 </body>
 
 </html>
