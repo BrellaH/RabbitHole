@@ -1,28 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include("../partials/header.ejs") %>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+    <div class="container">
+        <% for(let book of books){ %>
+            <div class="container col-6 offset-3">
+                <h1>
+                    <a href="/books/<%=book._id %>">
+                        <%=book.title%>
+                    </a>
+                </h1>
+                <h2>
+                    <%=book.author%>
+                </h2>
+            </div>
+            <%}%>
 
-<body>
-    <% for(let book of books){ %>
+                <div class="container col-6 offset-3">
+                    <form action=" /books/new" method="GET">
+                        <button>Add a new book</button>
+                    </form>
 
-        <h1>
-            <a href="/books/<%=book._id %>">
-                <%=book.title%>
-            </a>
-        </h1>
-        <h2>
-            <%=book.author%>
-        </h2>
-        <%}%>
-            <form action=" /books/new" method="GET">
-                <button>Add a new book</button>
-            </form>
-</body>
+                </div>
 
-</html>
+    </div>
+    <%- include("../partials/footer.ejs") %>
