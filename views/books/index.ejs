@@ -1,8 +1,8 @@
 <%- include("../partials/header.ejs") %>
 
-    <div class="container">
+    <div class="container col-8 offset-2">
         <% for(let book of books){ %>
-            <div class="container col-6 offset-3">
+            <div class="container">
                 <h1>
                     <a href="/books/<%=book._id %>">
                         <%=book.title%>
@@ -14,9 +14,9 @@
             </div>
             <%}%>
 
-                <div class="container col-6 offset-3">
+                <div class="container">
                     <form action=" /books/new" method="GET">
-                        <button>Add a new book</button>
+                        <button class="btn btn-primary">Add a new book</button>
                     </form>
 
                 </div>

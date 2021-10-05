@@ -1,13 +1,18 @@
 <%- include("../partials/header.ejs") %>
-    <form action="/books" method="post">
-        <div>
-            <label for="title">Book Title: </label>
-            <input type="text" id="title" placeholder="To Kill a Mockingbird" name="book[title]">
-        </div>
-        <div>
-            <label for="author">Author: </label>
-            <input type="text" id="author" placeholder="Harper Lee" name="book[author]">
-        </div>
-        <button type="submit">Submit</button>
-    </form>
+    <div class="container mt-3 col-3 offset-4">
+        <form action="/books" method="post">
+            <div>
+                <label for="title" class="form-label">Book Title: </label>
+                <input type="text" id="title" placeholder="To Kill a Mockingbird" name="book[title]"
+                    class="form-control">
+            </div>
+            <div>
+                <label for="author" class="form-label">Author: </label>
+                <input type="text" id="author" placeholder="Harper Lee" name="book[author]" class="form-control">
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary mt-3">Submit</button>
+            </div>
+        </form>
+    </div>
     <%- include("../partials/footer.ejs") %>
