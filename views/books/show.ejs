@@ -2,7 +2,8 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-4">
+            <div class="col-sm">
+                <canvas id="myCanvas" width="auto"></canvas>
                 <h1 class="text-dark">
                     <%= book.title %>
                 </h1>
@@ -16,7 +17,7 @@
                     <button type="submit" class="btn btn-primary">Add a Book Review</button>
                 </form>
             </div>
-            <div class="col offset-1">
+            <div class="col-sm">
                 <h1>Reviews</h1>
                 <% for(const review of book.reviews){%>
                     <h2>Rating: <%= review.rating %>
@@ -30,3 +31,41 @@
         </div>
     </div>
     <%- include("../partials/footer.ejs") %>
+        <script>
+            function wrapText(context, text, x, y, maxWidth, lineHeight) {
+                var words = text.split(' ');
+                var line = '';
+
+                for (var n = 0; n < words.length; n++) {
+                    var testLine = line + words[n] + ' ';
+                    var metrics = context.measureText(testLine);
+                    var testWidth = metrics.width;
+                    if (testWidth > maxWidth && n > 0) {
+                        context.fillText(line, x, y);
+                        line = words[n] + ' ';
+                        y += lineHeight;
+                    }
+                    else {
+                        line = testLine;
+                    }
+                }
+                context.fillText(line, x, y);
+            }
+
+            var canvas = document.getElementById('myCanvas');
+            var context = canvas.getContext('2d');
+            var maxWidth = canvas.width * .75;
+            var lineHeight = canvas.height * .1;
+            var x = canvas.width * 0.05;
+            var y = 60;
+            var text = "<%= book.title %>";
+
+            canvas.height = canvas.width * 1.3
+            context.fillStyle = "#" + Math.floor(Math.random() * 16777215).toString(16);
+            context.fillRect(0, 0, canvas.width, canvas.height)
+            context.font = '16pt Calibri';
+            context.textAlign = "left"
+            context.fillStyle = '#333';
+
+            wrapText(context, text, x, y, maxWidth, lineHeight);
+        </script>

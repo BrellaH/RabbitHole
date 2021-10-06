@@ -1,0 +1,4 @@
+connect to mongo atlas
+user groups
+security
+search bar
