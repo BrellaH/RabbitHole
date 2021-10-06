@@ -11,8 +11,10 @@
                     <%= book.author %>
                 </h2>
                 <h2>
-                    <%= ave_rating %>
+                    <%= ave_rating %> <span class="Stars" style="--rating: <%= ave_rating %>;"
+                            aria-label="Rating of this product is <%= ave_rating %> out of 5."></span>
                 </h2>
+
                 <form action="/books/<%=book._id %>/review" method="GET">
                     <button type="submit" class="btn btn-primary">Add a Book Review</button>
                 </form>
@@ -20,7 +22,8 @@
             <div class="col-sm">
                 <h1>Reviews</h1>
                 <% for(const review of book.reviews){%>
-                    <h2>Rating: <%= review.rating %>
+                    <h2><span class="Stars" style="--rating: <%= review.rating %>;"
+                            aria-label="Rating of this product is <%= review.rating %> out of 5."></span> %>
                     </h2>
                     <p>
                         <%= review.body %>

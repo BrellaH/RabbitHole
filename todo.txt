@@ -2,3 +2,5 @@ connect to mongo atlas
 user groups
 security
 search bar
+form validation
+upload book cover
