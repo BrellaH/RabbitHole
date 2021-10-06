@@ -24,7 +24,10 @@ app.get("/books/new", (req, res) => {
 app.route("/books/:id")
     .get(async (req, res) => {
         const { id } = req.params
+        //const book = await Book.findById(id).populate("reviews").select("reviews")
+        //console.log(book.select("reviews"))
         const book = await Book.findById(id).populate("reviews")
+        console.log(book)
         res.render("books/show", { book })
     })
     .post(async (req, res) => {

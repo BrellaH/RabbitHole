@@ -1,22 +1,29 @@
 <%- include("../partials/header.ejs") %>
-    <h1>
-        <%= book.title %>
-    </h1>
-    <h2>
-        <%= book.author %>
-    </h2>
-    <form action="/books/<%=book._id %>/review" method="GET">
-        <button type="submit">Add a Book Review</button>
-    </form>
-    <h1>Reviews</h1>
-    <% for(const review of book.reviews){%>
-        <h2>Rating: <%= review.rating %>
-        </h2>
-        <p>
-            <%= review.body %>
-        </p><a href=<%=`/books/${book._id}/review/${review._id}` %> >edit</a>
-        <%}%>
-            <div>
-                <a href="/books">Back to all books</a>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-4">
+                <h1>
+                    <%= book.title %>
+                </h1>
+                <h2>
+                    <%= book.author %>
+                </h2>
+                <form action="/books/<%=book._id %>/review" method="GET">
+                    <button type="submit" class="btn btn-primary">Add a Book Review</button>
+                </form>
             </div>
-            <%- include("../partials/footer.ejs") %>
+            <div class="col offset-1">
+                <h1>Reviews</h1>
+                <% for(const review of book.reviews){%>
+                    <h2>Rating: <%= review.rating %>
+                    </h2>
+                    <p>
+                        <%= review.body %>
+                    </p><a href=<%=`/books/${book._id}/review/${review._id}` %> >edit</a>
+                    <%}%>
+            </div>
+
+        </div>
+    </div>
+    <%- include("../partials/footer.ejs") %>
