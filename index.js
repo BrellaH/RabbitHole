@@ -24,11 +24,15 @@ app.get("/books/new", (req, res) => {
 app.route("/books/:id")
     .get(async (req, res) => {
         const { id } = req.params
-        //const book = await Book.findById(id).populate("reviews").select("reviews")
-        //console.log(book.select("reviews"))
         const book = await Book.findById(id).populate("reviews")
-        console.log(book)
-        res.render("books/show", { book })
+        const reviews = book.reviews
+        let sum = 0;
+        for (let review of reviews) {
+            console.log(review)
+            sum += review.rating
+        }
+        const ave_rating = (reviews.length === 0) ? "" : sum / reviews.length
+        res.render("books/show", { book, ave_rating })
     })
     .post(async (req, res) => {
         const { id } = req.params

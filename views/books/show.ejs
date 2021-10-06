@@ -3,11 +3,14 @@
     <div class="container">
         <div class="row">
             <div class="col-4">
-                <h1>
+                <h1 class="text-dark">
                     <%= book.title %>
                 </h1>
-                <h2>
+                <h2 class="text-muted">
                     <%= book.author %>
+                </h2>
+                <h2>
+                    <%= ave_rating %>
                 </h2>
                 <form action="/books/<%=book._id %>/review" method="GET">
                     <button type="submit" class="btn btn-primary">Add a Book Review</button>
