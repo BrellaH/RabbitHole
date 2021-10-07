@@ -6,5 +6,6 @@ form validation
 upload book cover
 multiple authors
 validate form not be empty
+flash message
 
 aggregate for calculating average review
