@@ -28,7 +28,7 @@ app.route("/books/:id")
         const reviews = book.reviews
         let sum = 0;
         for (let review of reviews) {
-            console.log(review)
+            //console.log(review)
             sum += review.rating
         }
         const ave_rating = (reviews.length === 0) ? "" : (sum / reviews.length).toFixed(1)
@@ -71,7 +71,6 @@ app.route("/books")
     .post(async (req, res) => {
         const newBook = new Book(req.body.book)
         await newBook.save()
-        console.log(newBook)
         res.redirect("/books")
     })
 

@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-sm">
                 <canvas id="myCanvas" width="auto"></canvas>
-                <h1 class="text-dark">
+                <h1 class="text-dark mt-3">
                     <%= book.title %>
                 </h1>
                 <h2 class="text-muted">
@@ -16,7 +16,7 @@
                 </h2>
 
                 <form action="/books/<%=book._id %>/review" method="GET">
-                    <button type="submit" class="btn btn-primary">Add a Book Review</button>
+                    <button type="submit" class="btn btn-primary mt-3">Add a Book Review</button>
                 </form>
             </div>
             <div class="col-sm">
