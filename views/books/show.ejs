@@ -22,13 +22,22 @@
             <div class="col-sm">
                 <h1>Reviews</h1>
                 <% for(const review of book.reviews){%>
-                    <h2><span class="Stars" style="--rating: <%= review.rating %>;"
+                    <h2><span class="Stars" style="--rating: <%= review.rating %>; font-size:x-large;"
                             aria-label="Rating of this product is <%= review.rating %> out of 5."></span> %>
                     </h2>
                     <p>
                         <%= review.body %>
-                    </p><a href=<%=`/books/${book._id}/review/${review._id}` %> >edit</a>
+                    </p>
+                    <form style="margin: 0; padding: 0;"
+                        action="/books/<%= book._id %>/review/<%= review._id %>/?_method=DELETE" method="post">
+                        <button class="btn btn-link"><a href=<%=`/books/${book._id}/review/${review._id}`
+                                %>>edit</a></button>
+
+                        <button class="btn btn-link">delete</button>
+
+                    </form>
                     <%}%>
+
             </div>
 
         </div>

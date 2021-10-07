@@ -4,3 +4,7 @@ security
 search bar
 form validation
 upload book cover
+multiple authors
+validate form not be empty
+
+aggregate for calculating average review

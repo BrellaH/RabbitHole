@@ -62,6 +62,12 @@ app.route("/books/:id/review/:reviewId")
         await Review.findByIdAndUpdate(reviewId, req.body.review)
         res.redirect(`/books/${id}`)
     })
+    .delete(async (req, res) => {
+        const { id, reviewId } = req.params
+        await Review.findByIdAndDelete(reviewId)
+        await Book.findByIdAndUpdate(id, { $pull: { reviews: reviewId } })
+        res.redirect(`/books/${id}`)
+    })
 
 app.route("/books")
     .get(async (req, res) => {
