@@ -3,9 +3,14 @@ const app = express()
 const path = require("path")
 const Book = require("./models/bookModel")
 const Review = require("./models/reviewModel")
+const User = require("./models/userModel")
 const methodOverride = require("method-override")
+const passport = require("passport")
 const router = express.Router()
+const session = require("express-session")
+//const flash = require("connect-flash")
 const mongoose = require('mongoose');
+const LocalStrategy = require('passport-local').Strategy;
 
 app.set("views", path.join(__dirname, "views"))
 app.set("view engine", "ejs")
@@ -14,8 +19,45 @@ app.use(express.json())
 app.use(methodOverride("_method"))
 app.use(express.static(path.join(__dirname, "public")));
 
+const sessionConfig = {
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+    //cookie: { secure: true }
+}
+app.use(session(sessionConfig))
+app.use(passport.initialize())
+app.use(passport.session())
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+//app.use(flash())
+
 
 mongoose.connect('mongodb://localhost:27017/rabbit-hole');
+
+app.route("/user/login")
+    .get((req, res) => {
+        res.render("users/login")
+    })
+    .post(passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), async (req, res) => {
+        //req.flash('success', 'welcome back!');
+        res.redirect('/books');
+        //res.send("hehe")
+    })
+app.route("/user/signup")
+    .get((req, res) => {
+        res.render("users/signup")
+    })
+    .post(async (req, res, next) => {
+        const { username, password } = req.body;
+        const user = new User({ username });
+        const newUser = await User.register(user, password)
+        req.login(newUser, function (err) {
+            if (err) return next(err);
+            res.redirect('/books');
+        })
+    })
 
 app.get("/books/new", (req, res) => {
     res.render("books/new")
@@ -71,6 +113,7 @@ app.route("/books/:id/review/:reviewId")
 
 app.route("/books")
     .get(async (req, res) => {
+        console.log(req.user._id)
         const books = await Book.find()
         res.render("books/index", { books })
     })
@@ -81,7 +124,7 @@ app.route("/books")
     })
 
 app.get("/", (req, res) => {
-    res.send("this is home page")
+    res.render("home")
 })
 
 app.listen(3000, () => {
