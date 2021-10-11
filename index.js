@@ -8,7 +8,7 @@ const methodOverride = require("method-override")
 const passport = require("passport")
 const router = express.Router()
 const session = require("express-session")
-//const flash = require("connect-flash")
+const flash = require("connect-flash")
 const mongoose = require('mongoose');
 const LocalStrategy = require('passport-local').Strategy;
 
@@ -18,6 +18,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
 app.use(methodOverride("_method"))
 app.use(express.static(path.join(__dirname, "public")));
+
+
 
 const sessionConfig = {
     secret: 'keyboard cat',
@@ -31,17 +33,33 @@ app.use(passport.session())
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-//app.use(flash())
+app.use(flash())
+app.use((req, res, next) => {
+    res.locals.currentUser = req.user;
+    res.locals.success = req.flash("success")
+    res.locals.error = req.flash("error")
+    res.locals.info = req.flash("info")
+    next()
+})
 
+const isLoggedin = function (req, res, next) {
+    console.log(req.path, req.originalUrl)
+    req.flash('info', 'Flash is back!')
+    if (!req.isAuthenticated()) {
+        return res.redirect("/")
+    }
+    next()
+}
 
 mongoose.connect('mongodb://localhost:27017/rabbit-hole');
 
 app.route("/user/login")
     .get((req, res) => {
+        console.log(req.flash("error"))
         res.render("users/login")
     })
-    .post(passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), async (req, res) => {
-        //req.flash('success', 'welcome back!');
+    .post(passport.authenticate('local', { failureFlash: 'Invalid username or password.', failureRedirect: '/user/login' }), async (req, res) => {
+        req.flash('success', 'welcome back!');
         res.redirect('/books');
         //res.send("hehe")
     })
@@ -59,7 +77,13 @@ app.route("/user/signup")
         })
     })
 
-app.get("/books/new", (req, res) => {
+app.get("/user/logout", (req, res) => {
+    req.logout();
+    res.redirect("/books")
+})
+
+
+app.get("/books/new", isLoggedin, (req, res) => {
     res.render("books/new")
 })
 
@@ -76,7 +100,7 @@ app.route("/books/:id")
         const ave_rating = (reviews.length === 0) ? "" : (sum / reviews.length).toFixed(1)
         res.render("books/show", { book, ave_rating })
     })
-    .post(async (req, res) => {
+    .post(isLoggedin, async (req, res) => {
         const { id } = req.params
         const book = await Book.findById(id)
         const newReview = new Review(req.body.review)
@@ -86,7 +110,7 @@ app.route("/books/:id")
         res.redirect(`/books/${id}`)
     })
 
-app.get("/books/:id/review", async (req, res) => {
+app.get("/books/:id/review", isLoggedin, async (req, res) => {
     const { id } = req.params;
     const book = await Book.findById(id)
     res.render("reviews/new", { book })
@@ -113,11 +137,11 @@ app.route("/books/:id/review/:reviewId")
 
 app.route("/books")
     .get(async (req, res) => {
-        console.log(req.user._id)
+        if (req.user) { console.log(req.user._id) }
         const books = await Book.find()
         res.render("books/index", { books })
     })
-    .post(async (req, res) => {
+    .post(isLoggedin, async (req, res) => {
         const newBook = new Book(req.body.book)
         await newBook.save()
         res.redirect("/books")
