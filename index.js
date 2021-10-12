@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== "production") {
+    require('dotenv').config();
+}
+
 const express = require("express")
 const app = express()
 const path = require("path")
@@ -9,6 +13,7 @@ const passport = require("passport")
 const router = express.Router()
 const session = require("express-session")
 const flash = require("connect-flash")
+const MongoStore = require('connect-mongo');
 const mongoose = require('mongoose');
 const LocalStrategy = require('passport-local').Strategy;
 
@@ -19,10 +24,19 @@ app.use(express.json())
 app.use(methodOverride("_method"))
 app.use(express.static(path.join(__dirname, "public")));
 
+const DBUrl = process.env.mongoURL || 'mongodb://localhost:27017/rabbit-hole'
+const secret = process.env.secret || "this is my secret"
 
+const store = MongoStore.create({
+    secret,
+    mongoUrl: DBUrl,
+    touchAfter: 24 * 3600
+})
 
 const sessionConfig = {
-    secret: 'keyboard cat',
+    store,
+    name: "session",
+    secret,
     resave: false,
     saveUninitialized: true,
     //cookie: { secure: true }
@@ -42,7 +56,7 @@ app.use((req, res, next) => {
 })
 
 const isLoggedin = function (req, res, next) {
-    console.log(req.path, req.originalUrl)
+    //console.log(req.path, req.originalUrl)
     if (!req.isAuthenticated()) {
         req.session.returnTo = req.originalUrl
         req.flash("error", "You must sign in first.")
@@ -51,11 +65,12 @@ const isLoggedin = function (req, res, next) {
     next()
 }
 
-mongoose.connect('mongodb://localhost:27017/rabbit-hole');
 
+//mongoose.connect('mongodb://localhost:27017/rabbit-hole');
+mongoose.connect(DBUrl);
 app.route("/user/login")
     .get((req, res) => {
-        console.log(req.flash("error"))
+        //console.log(req.flash("error"))
         res.render("users/login")
     })
     .post(passport.authenticate('local', { failureFlash: 'Invalid username or password.', failureRedirect: '/user/login' }), async (req, res) => {
@@ -108,9 +123,9 @@ app.route("/books/:id")
         const { id } = req.params
         const book = await Book.findById(id)
         const newReview = new Review(req.body.review)
-        console.log(req.user.username)
+        //console.log(req.user.username)
         newReview.author = req.user.username
-        console.log(newReview)
+        //console.log(newReview)
         await newReview.save()
         book.reviews.push(newReview._id)
         await book.save()
@@ -144,7 +159,7 @@ app.route("/books/:id/review/:reviewId")
 
 app.route("/books")
     .get(async (req, res) => {
-        if (req.user) { console.log(req.user._id) }
+        //if (req.user) { console.log(req.user._id) }
         const books = await Book.find()
         res.render("books/index", { books })
     })
