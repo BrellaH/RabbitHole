@@ -44,6 +44,7 @@ app.use((req, res, next) => {
 const isLoggedin = function (req, res, next) {
     console.log(req.path, req.originalUrl)
     if (!req.isAuthenticated()) {
+        req.session.returnTo = req.originalUrl
         req.flash("error", "You must sign in first.")
         return res.redirect("/")
     }
@@ -59,7 +60,9 @@ app.route("/user/login")
     })
     .post(passport.authenticate('local', { failureFlash: 'Invalid username or password.', failureRedirect: '/user/login' }), async (req, res) => {
         req.flash('success', 'welcome back!');
-        res.redirect('/books');
+        const redirectUrl = req.session.returnTo || "/books";
+        delete redirectUrl;
+        res.redirect(redirectUrl);
         //res.send("hehe")
     })
 app.route("/user/signup")
@@ -72,7 +75,9 @@ app.route("/user/signup")
         const newUser = await User.register(user, password)
         req.login(newUser, function (err) {
             if (err) return next(err);
-            res.redirect('/books');
+            const redirectUrl = req.session.returnTo || "/books";
+            delete redirectUrl;
+            res.redirect(redirectUrl);
         })
     })
 

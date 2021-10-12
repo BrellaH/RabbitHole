@@ -29,12 +29,10 @@
                         <p class="">
                             <%= review.body %>
                         </p>
-                        <% if(review.author){%>
-                            <p class="card-footer bg-white text-muted float-right">
-                                ——<%= review.author %>
-                            </p>
-                            <%}%>
-                                <!-- <form style="margin: 0; padding: 0;"
+                        <p class="card-footer bg-white text-muted float-right">
+                            ——<%= review.author || "anonymous" %>
+                        </p>
+                        <!-- <form style="margin: 0; padding: 0;"
                             action="/books/<%= book._id %>/review/<%= review._id %>/?_method=DELETE" method="post">
                             <button class="btn btn-link"><a href=<%=`/books/${book._id}/review/${review._id}`
                                     %>>edit</a></button>
