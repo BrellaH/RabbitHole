@@ -1,7 +1,7 @@
 # RabbitHole
 An online book review system
 ## Description
-A full CRUD online book review system. Implemented with Node, express, MongoDB, and a handful of other packages.
+A full CRUD responsive online book review website. Implemented with Node, express, MongoDB, and a handful of other packages.
 ## [Demo]()
 Browse books and reviews created by our users. Sign in to create yours!
 ## Useful Resources
