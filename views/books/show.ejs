@@ -19,23 +19,30 @@
                     <button type="submit" class="btn btn-primary mt-3">Add a Book Review</button>
                 </form>
             </div>
-            <div class="col-sm">
+            <div class="col-6 float-left">
                 <h1>Reviews</h1>
                 <% for(const review of book.reviews){%>
-                    <h2><span class="Stars" style="--rating: <%= review.rating %>; font-size:x-large;"
-                            aria-label="Rating of this product is <%= review.rating %> out of 5."></span> %>
-                    </h2>
-                    <p>
-                        <%= review.body %>
-                    </p>
-                    <form style="margin: 0; padding: 0;"
-                        action="/books/<%= book._id %>/review/<%= review._id %>/?_method=DELETE" method="post">
-                        <button class="btn btn-link"><a href=<%=`/books/${book._id}/review/${review._id}`
-                                %>>edit</a></button>
+                    <div class="mb-3">
+                        <h2><span class="Stars" style="--rating: <%= review.rating %>; font-size:x-large;"
+                                aria-label="Rating of this product is <%= review.rating %> out of 5."></span> %>
+                        </h2>
+                        <p class="">
+                            <%= review.body %>
+                        </p>
+                        <% if(review.author){%>
+                            <p class="card-footer bg-white text-muted float-right">
+                                ——<%= review.author %>
+                            </p>
+                            <%}%>
+                                <!-- <form style="margin: 0; padding: 0;"
+                            action="/books/<%= book._id %>/review/<%= review._id %>/?_method=DELETE" method="post">
+                            <button class="btn btn-link"><a href=<%=`/books/${book._id}/review/${review._id}`
+                                    %>>edit</a></button>
 
-                        <button class="btn btn-link">delete</button>
+                            <button class="btn btn-link">delete</button>
 
-                    </form>
+                        </form> -->
+                    </div>
                     <%}%>
 
             </div>

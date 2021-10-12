@@ -38,14 +38,13 @@ app.use((req, res, next) => {
     res.locals.currentUser = req.user;
     res.locals.success = req.flash("success")
     res.locals.error = req.flash("error")
-    res.locals.info = req.flash("info")
     next()
 })
 
 const isLoggedin = function (req, res, next) {
     console.log(req.path, req.originalUrl)
-    req.flash('info', 'Flash is back!')
     if (!req.isAuthenticated()) {
+        req.flash("error", "You must sign in first.")
         return res.redirect("/")
     }
     next()
@@ -104,6 +103,9 @@ app.route("/books/:id")
         const { id } = req.params
         const book = await Book.findById(id)
         const newReview = new Review(req.body.review)
+        console.log(req.user.username)
+        newReview.author = req.user.username
+        console.log(newReview)
         await newReview.save()
         book.reviews.push(newReview._id)
         await book.save()
