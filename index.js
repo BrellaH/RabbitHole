@@ -98,7 +98,7 @@ app.route("/user/signup")
 
 app.get("/user/logout", (req, res) => {
     req.logout();
-    res.redirect("/books")
+    res.redirect("/")
 })
 
 
@@ -170,6 +170,9 @@ app.route("/books")
     })
 
 app.get("/", (req, res) => {
+    if (req.isAuthenticated()) {
+        return res.redirect("/books")
+    }
     res.render("home")
 })
 
