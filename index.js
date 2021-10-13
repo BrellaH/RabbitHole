@@ -66,8 +66,8 @@ const isLoggedin = function (req, res, next) {
 }
 
 
-mongoose.connect('mongodb://localhost:27017/rabbit-hole');
-//mongoose.connect(DBUrl);
+//mongoose.connect('mongodb://localhost:27017/rabbit-hole');
+mongoose.connect(DBUrl);
 app.route("/user/login")
     .get((req, res) => {
         //console.log(req.flash("error"))
