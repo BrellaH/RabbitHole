@@ -1,13 +1,52 @@
-<%- include("./partials/header.ejs") %>
-    <div class="container col-3 text-center">
-        <form method="GET" action="/books">
-            <button class="btn btn-secondary mt-3 ">Continue as Guest</button>
-        </form>
-        <form method="GET" action="/user/login">
-            <button class="btn btn-primary mt-3">Log In</button>
-        </form>
-        <form method="GET" action="/user/signup">
-            <button class="btn btn-primary mt-3 ">Sign Up</button>
-        </form>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rabbit Hole</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="/styles/style.css" rel="stylesheet">
+    <link href="/styles/mystyle.css" rel="stylesheet">
+</head>
+
+<%- include("./partials/nav") %>
+    <div class="container col-3">
+        <% if(error && error.length){ %>
+
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <%= error %>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+            <% }%>
+
+                <% if(success && success.length){ %>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <%= success %>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <% }%>
     </div>
-    <%- include("./partials/footer.ejs") %>
+
+    <body
+        style="background: no-repeat center/cover url(assets/valentin-lacoste-jNSJE8dMro0-unsplash.jpg); height:100vh;">
+        <div class="row align-items-center" style="height:80%;width:100%">
+            <div class="container col-3 text-center">
+                <form method="GET" action="/books">
+                    <button class="btn btn-secondary mt-3">Continue as Guest</button>
+                </form>
+                <form method="GET" action="/user/login">
+                    <button class="btn btn-primary mt-3">Log In</button>
+                </form>
+                <form method="GET" action="/user/signup">
+                    <button class="btn btn-primary mt-3 ">Sign Up</button>
+                </form>
+            </div>
+        </div>
+        <%- include("./partials/footer.ejs") %>
