@@ -21,13 +21,14 @@
             </div>
             <div class="col-6 float-left">
                 <h1>Reviews</h1>
+                <p>just testing if I can add </br>newline </br>like this</p>
                 <% for(const review of book.reviews){%>
                     <div class="mb-3">
                         <h2><span class="Stars" style="--rating: <%= review.rating %>; font-size:x-large;"
                                 aria-label="Rating of this product is <%= review.rating %> out of 5."></span> %>
                         </h2>
                         <p class="">
-                            <%= review.body %>
+                            <%- review.body %>
                         </p>
                         <p class="card-footer bg-white text-muted float-right">
                             ——<%= review.author || "anonymous" %>

@@ -66,8 +66,8 @@ const isLoggedin = function (req, res, next) {
 }
 
 
-//mongoose.connect('mongodb://localhost:27017/rabbit-hole');
-mongoose.connect(DBUrl);
+mongoose.connect('mongodb://localhost:27017/rabbit-hole');
+//mongoose.connect(DBUrl);
 app.route("/user/login")
     .get((req, res) => {
         //console.log(req.flash("error"))
@@ -119,10 +119,13 @@ app.route("/books/:id")
         const ave_rating = (reviews.length === 0) ? "" : (sum / reviews.length).toFixed(1)
         res.render("books/show", { book, ave_rating })
     })
+    //getting new review for a book
     .post(isLoggedin, async (req, res) => {
         const { id } = req.params
         const book = await Book.findById(id)
         const newReview = new Review(req.body.review)
+        newReview.body = newReview.body.replace(/\r\n/g, "</br>")
+        console.log(newReview.body)
         //console.log(req.user.username)
         newReview.author = req.user.username
         //console.log(newReview)
