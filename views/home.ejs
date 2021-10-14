@@ -12,30 +12,12 @@
     <link href="/styles/mystyle.css" rel="stylesheet">
 </head>
 
-<%- include("./partials/nav") %>
-    <div class="container col-3">
-        <% if(error && error.length){ %>
 
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <%= error %>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-            </div>
-            <% }%>
 
-                <% if(success && success.length){ %>
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <%= success %>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                    </div>
-                    <% }%>
-    </div>
+<body style="background: no-repeat center/cover url(assets/valentin-lacoste-jNSJE8dMro0-unsplash.jpg); height:100vh;">
 
-    <body
-        style="background: no-repeat center/cover url(assets/valentin-lacoste-jNSJE8dMro0-unsplash.jpg); height:100vh;">
+    <%- include("./partials/nav") %>
+
         <div class="row align-items-center" style="height:80%;width:100%">
             <div class="container col-3 text-center">
                 <form method="GET" action="/books">
@@ -49,4 +31,9 @@
                 </form>
             </div>
         </div>
+        <footer class="footer mb-auto py-3 text-center">
+            <div class="container mb-0">
+                <span class="text-muted">&copy; Yingxu 2021</span>
+            </div>
+        </footer>
         <%- include("./partials/footer.ejs") %>
