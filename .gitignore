@@ -1,4 +1,4 @@
 node_modules/
 todo.txt
 .env
-views/home-ori.ejs
+public/styles/style.css
